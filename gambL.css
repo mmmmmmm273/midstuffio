@@ -1,0 +1,86 @@
+* {
+  zoom: 120%;
+  color:wheat;
+  background-color: black;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    /* color: #fff; */
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    }
+
+
+#chanceDisplay {
+  top:25px;
+}
+
+#fishCa {
+    font-style:italic;
+}
+
+.rankE, .rankD, .rankC, .rankB, .rankA, .tab {
+  visibility: hidden;
+}
+
+#fishInfBuy {
+  visibility: hidden;
+}
+
+#shop, #guild, #techs, #feat, #auction {
+  visibility: hidden;
+  position:absolute;
+  top:102px;
+  width: 1500px;
+  height:1000px
+}
+
+h3 {
+  border-style:solid;
+  width: 150px;
+  /* border-width: 2px; */
+}
+
+#myDiv {
+  border-style:solid;
+  width: 300px;
+}
+
+input {
+  accent-color:darkgray;
+  background-color: black;
+}
+
+#moneyBribe {
+  width: 50px;
+}
+
+button {
+  background-color: black;
+}
+
+body {
+  /* background-size: 40px 45px;
+  background-image: radial-gradient(circle, wheat 1px, rgba(0, 0, 0, 0) 1px); */
+  background-color: black;
+}

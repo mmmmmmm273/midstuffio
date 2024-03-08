@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="gambL.css" >
+</head>
+<body>
+    <label id="cashDisplay">Cash: BROKE</label><br>
+    <label id="cRank" class="rStat">Rank: F</label><br>
+    <label id="chanceDisplay" class="rStat">Chances:
+        Rare: 30;
+        Epic: 10;
+        Legendary: 3;
+        Mythical: 1
+    </label><br>
+    <button id="lakeTab">Lake</button>
+    <button id="shopTab">Shop</button>
+    <button id="guildTab">Guild</button>
+    <button class="tab" id="techTab">Techs</button>
+    <button  id="aucTab">Auction</button>
+    <button class="tab" id="feaTab">Feats</button><br><br>
+
+    <div id="techs">
+        <h3>techs:</h3>
+        <div id="chargeDisplay">Charges: you forgot to charge your phone btw</div>
+        <label>Buy a Charge</label>
+        <button value="1000" id="chargeBuy">1000$</button><br><br>
+    
+        <label>Double Cash (30s)</label>
+        <button id="cash2x" value="1">1 Charge</button>
+        <label id="dcashActivate">(deactivated)</label>
+        <div class="tRankC" value="3">
+            <label>Fishing Inflation</label>
+            <button id="fishInfl" value="2">2 Charges</button>
+            <label id="finfActivate">(deactivated)</label>
+        </div>
+        <div class="tRankA" value="5">
+            <label>Coin Flip</label>
+            <button id="cFlipBTN" value="3">3 Charges</button>
+            <label id="cFlipAct">(deactivated)</label>
+        </div>
+    </div>
+    
+        <div id="shop">
+            <h3>shop:</h3>
+            <label>Increase Rare Fish Chances</label>
+            <button id="rareBuy" value="60">60$</button>
+            <br>
+            <label>Get a Rare Fish</label>
+            <button id="rareFishBuy" value="180">180$</button>
+            <div class="rankE">
+                <label>Increase Epic Fish Chances</label>
+                <button id="epicBuy" value="100">100$</button>
+            </div>
+            <div class="rankD" value="2">
+                <label>Get an Epic Fish</label>
+                <button id="epicFishBuy" value="240">240$</button>
+            </div>
+            <div class="rankC" value="3">
+                <label>Increase Legendary Fish Chances</label>
+                <button id="legeBuy" value="230">230$</button>
+            </div>
+            <div class="rankB" value="4">
+                <label>Get a Legendary Fish</label>
+                <button id="legeFishBuy" value="500">500$</button>
+            </div>
+            <div class="rankA">
+                <label>Increase Mythical Fish Chances</label>
+                <button id="champBuy" value="0">400$</button>
+            </div>
+            <div class="rankS">
+                <label>Get a Mythical Fish</label>
+                <button id="champFishBuy" value="1000">1000$</button>
+            </div>
+        </div>
+
+    <div id="main">
+        <h3>lake:</h3>
+        <button id="fishBTN">Fish</button>
+        <button id="fishInfBuy">Fish (400$)</button>
+        <div id="fishCa">PRESS THE FISH BUTTON</div>
+            <div id="myDiv"></div>
+            <label id="totalValDisplay">Total Value: worthless</label>
+            <br>
+            <button id="selectAll">Select All</button>
+            <button id="deselectAll">Deselect All</button>
+            <br>
+            <div id="seller">
+            <button >Sell Selected Fish</button>
+            </div>
+            <button id="gambler">Gamble Selected Fish</button>
+            <label id="maxValue" class="tooltip">MOBV: None yet...
+                <span class="tooltiptext">
+                    <em>MAXIMUM OPPOSITION BET VALUE</em>
+                </span>
+            </label><br>
+            <label id="result"></label>
+    </div>
+
+    <div id="guild">
+        <h3>gambler's guild:</h3>
+        <div id="rankStats">Max Rare Chance: 40; Minimum MOBV: 200;</div><br>
+        <label id="buyRankDisplay">Buy Rank E</label>
+        <button id="buyRank" value="3000">3000$</button>
+        <br>
+        <p><em>Buying a rank will deplete all of your cash even if it exceeds the rank requirement.</em></p>
+        <em>You cannot sell if you are Rank C and above.</em>
+    </div>
+
+    <div id="auction">
+        <h3>auction:</h3>
+        <div id="cAuct">Current Auction: get wifi anywhere you go!</div><br>
+        <label>Buy Auctioned Fish</label>
+        <button id="buyAuct">a zillion dollars</button><br>
+        <label>Reroll Auction</label>
+        <button id="rerollA" value="0">50$</button><br>
+        <label>Skewer Auction</label>
+        <button id="skewAuc" value="150">150$</button><br>
+        <label>Bribe Auctioneer</label>
+        <input type="number" id="moneyBribe">
+        <button id="bribe">Bribe</button><br>
+        <label id="bribeResult"></label>
+    </div>
+
+    <div id="feat">
+        <h3>feats:</h3>
+
+        <div id="bigMoney"><em>Mr. Bazooki</em>: Have 30000 cash <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="midDepp"><em>The Mid Deppression</em>: Have lost 4000 cash after Inflation <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="allSell"><em>Turbo Loser</em>: Lose a gamble with all Techs activated <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="onlyEpic"><em>Very Epic</em>: Win a gamble with only an Epic Fish <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="dcashSell"><em>Big Guy</em>: Gamble 10 Legendary Fish during Double Cash <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="cRoyale"><em>Mid-Ladder</em>: Win a gamble with raged ebarb <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="mythSell"><em>Lost Cause</em>: Gamble a Mythical Fish and still lose <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="fullH"><em>Full House</em>: Have 10 Mythical Fish <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="crypZ"><em>Logan Paul Scheme</em>: Buy an Epic Fish for 500$ or more <strong>(INCOMPLETE)</strong></div>
+        <br>
+        <div id="cheapCh"><em>Robbery</em>: Buy a Mythical Fish for 10$ or less <strong>(INCOMPLETE)</strong></div>
+        <br>
+    </div>
+
+</body>
+<script src="gambL.js"></script>
+</html>
