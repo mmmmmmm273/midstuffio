@@ -316,11 +316,11 @@ function lootFind(rare, epic, lege, champ) {
     var dropF = {}
     dropF.isExisting = true;
     //loot tables
-    const commonDrops = ["sea bass", "free bass", "salmon", "salben", "very free fish", "yawn squid", "firefisher", "skibidi salmon"]
+    const commonDrops = ["sea bass", "free bass", "salmon", "salben", "very free fish", "yawn squid", "firefisher", "skibidi salmon", "squiddo"]
     const rareDrops = ["squidwart", "squidmid", "midwart", "slightly bigger salmon", "slightly bigger bass", "freeben salbass", "fish rider"]
-    const epicDrops = ["oiled squid", "baby shark 🤢", "juicy squid", "under-age-sea shark", "sharkDP445", "len", "giant skelefish"]
-    const legeDrops = ["electra fishel", "muscular shark", "fat squid", "el goto", "special grade npc", "luck no pluck nomi", "salord of the seas"]
-    const champDrops = ["ben", "el gato", "raged ebarb", "usb cable gojo", "mighty minor", "suluna the curse of kings", "good burger", "kaido"]
+    const epicDrops = ["oiled squid", "baby shark 🤢", "juicy squid", "under-age-sea shark", "sharkDP445", "len", "giant skelefish", "lionfish"]
+    const legeDrops = ["electra fishel", "muscular shark", "fat squid", "el goto", "special grade npc", "luck no pluck nomi", "salord of the seas", "midoraga"]
+    const champDrops = ["ben", "el gato", "raged ebarb", "usb cable gojo", "mighty minor", "suluna the curse of kings", "good burger", "kaido", "baki", "thunder squid"]
 
     //roll
     const roll = getRandomInt(100)
