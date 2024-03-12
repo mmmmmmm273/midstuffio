@@ -850,7 +850,3 @@ function pRankUnlock() {
         rankUpBTN.innerHTML = `${rankUpBTN.value}$`
     }
 }
-        rankUpBTN.value = 50000
-        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
-    }
-}
