@@ -6,6 +6,9 @@ function setTab(selected) {
     document.querySelector("#feat").style.visibility = "hidden"
     document.querySelector("#guild").style.visibility = "hidden"
     document.querySelector("#auction").style.visibility = "hidden"
+    document.querySelector("#tutorial").style.visibility = "hidden"
+    document.querySelector("#fishBTN").style.visibility = "hidden"
+    document.querySelector("#fishInfBuy").style.visibility = "hidden"
     let allRanks = [
         // document.getElementsByClassName("rankP"),
         document.getElementsByClassName("rankS"),
@@ -30,6 +33,10 @@ function setTab(selected) {
 
     if (selected == "lake") {
         document.querySelector("#main").style.visibility = "visible"
+        if (cFlip || fishInf) {
+            document.querySelector("#fishInfBuy").style.visibility = "visible"
+        }
+        else document.querySelector("#fishBTN").style.visibility = "visible"
     }
     else if (selected == "shop") {
         document.querySelector("#shop").style.visibility = "visible"
@@ -118,6 +125,9 @@ function setTab(selected) {
     else if (selected == "feat") {
         document.querySelector("#feat").style.visibility = "visible"
     }
+    else if (selected == "tutorial") {
+        document.querySelector("#tutorial").style.visibility = "visible"
+    }
 }
 document.querySelector("#lakeTab").addEventListener("click", (e) => {
     setTab("lake")
@@ -137,6 +147,9 @@ document.querySelector("#feaTab").addEventListener("click", (e) => {
 document.querySelector("#aucTab").addEventListener("click", (e) => {
     setTab("auction")
 })
+document.querySelector("#tutTab").addEventListener("click", (e) => {
+    setTab("tutorial")
+})
 
 //inv
 var inv = []
@@ -144,20 +157,15 @@ var maxInv = 10
 
 //money
 var money = 0
-var moneyDisplay = document.querySelector("#cashDisplay")
+const moneyDisplay = document.querySelector("#cashDisplay")
 function updateMoney(given) {
     money += given
-    moneyDisplay.innerHTML = `Cash: ${money}`
-    if (doubleCash == true) {
-        moneyDisplay.innerHTML += " (2x)"
-    }
-    if (money >= rankUpBTN.value) {
-        moneyDisplay.innerHTML += " [YOU CAN RANK UP, check the 'guild' tab for more info]"
-    }
+    if (money == Infinity) moneyDisplay.innerHTML = "Cash: seven bazinjillion dollars"
+    else moneyDisplay.innerHTML = `Cash: ${money}`
+    if (doubleCash == true) moneyDisplay.innerHTML += " (2x)"
+    if (money >= rankUpBTN.value) moneyDisplay.innerHTML += " [YOU CAN RANK UP, check the 'guild' tab for more info]"
     //feat get
-    if (money >= 30000) {
-        getBigMoney()
-    }
+    if (money >= 30000) getBigMoney()
 }
 
 
@@ -209,23 +217,24 @@ function rankDo(temp, updateBool) { //returns rank as string
 
 //chances
 var rareChance = 30
-var epicChance = 10
-var legeChance = 3
-var champChance = 1
+var epicChance = 5
+var legeChance = 2
+var champChance = 0.5
 var chanceDisplay = document.querySelector("#chanceDisplay")
 function updateChances() {
     chanceDisplay.innerHTML = `Chances:
-    Rare: ${rareChance}
-    Epic: ${epicChance}
-    Legendary: ${legeChance}
+    Rare: ${rareChance};
+    Epic: ${epicChance};
+    Legendary: ${legeChance};
     Mythical: ${champChance}`
 }
+updateChances()
 
 //cgv
 var maxOppValue = 0
 var maxValueDisplay = document.querySelector("#maxValue")
 function updateMaxValue() {
-    if (!fishInf == true) {
+    if (!fishInf) {
         let rankPen = Math.ceil(minCGV/2)
         let currentMax = getRandomInt(1500 + rankPen)
         if (currentMax >= minCGV) {
@@ -257,7 +266,7 @@ function getFish(r, e, l, c, amount, preset) {
         if (preset) {
             drop = preset
         }
-        else if (cFlip == false) {
+        else if (!cFlip) {
             drop = lootFind(r, e, l, c)
         }
         else {
@@ -294,6 +303,7 @@ function getFish(r, e, l, c, amount, preset) {
         if (totalChamps == 10) {
             getFullH()
         }
+        //end of feat stuff....
         return true
     }
     else {
@@ -430,6 +440,7 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
                     champ = true
                     totalChamps -= 1
                 }
+                
                 //add value to total
                 totalValueG += inv[itemP].sellValue
                 updateTotalVal(-inv[itemP].sellValue)
@@ -568,7 +579,6 @@ rankUpBTN.addEventListener("click", (e) => {
         rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
         //rank unlocks
         if (rankDo(0, true) == "E") {
-            // document.querySelector(".rankE").style.visibility = "visible"
             maxRareChance += 20
             rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Minimum MOBV: ${minCGV};`
         }
@@ -582,6 +592,7 @@ rankUpBTN.addEventListener("click", (e) => {
         else if(rankDo(0, true) == "C" ) {
             //remove selling
             document.querySelector("#seller").style.display = "none"
+            //visible auction
             document.querySelector("#aucTab").style.visibility = "visible"
             //increase max chances
             maxEpicChance += 5
@@ -597,16 +608,18 @@ rankUpBTN.addEventListener("click", (e) => {
         else if(rankDo(0, true) == "A" ) {
             //increase max chances
             maxLegeChance += 1
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance}; Minimum MOBV: ${minCGV};`
+            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
         }
         else if(rankDo(0, true) == "S" ) {
             maxChampChance += 1
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance}; Minimum MOBV: ${minCGV};`
+            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
             rankUpBTN.value = NaN
             rankUpBTN.innerHTML = "COMPLETE EVERY FEAT FIRST"
+            updateMoney(Infinity)
         }
         else if (rankDo(0, true) == "P") {
             document.querySelector("#guild").style.display = "none"
+            
         }
     }
 })
@@ -656,14 +669,10 @@ fishInfBTN.addEventListener("click", (e) => {
         updateCharges(-fishInfBTN.value)
         fishInf = true
         fishInfActivate.innerHTML = "(activated)"
-        document.querySelector("#fishInfBuy").style.visibility = "visible"
-        document.querySelector("#fishBTN").style.visibility = "hidden"
     }
     else if (fishInf == true) {
         fishInf = false
         fishInfActivate.innerHTML = "(deactivated)"
-        document.querySelector("#fishInfBuy").style.visibility = "hidden"
-        document.querySelector("#fishBTN").style.visibility = "visible"
         //real feat check
         let midFeatCheck = beforeMoney - 4000
         if (midFeatCheck < money) {
@@ -680,14 +689,14 @@ cFlipBTN.addEventListener("click", (e) => {
         updateCharges(-cFlipBTN.value)
         cFlip = true
         cFlipAct.innerHTML = "(activated)"
-        document.querySelector("#fishInfBuy").style.visibility = "visible"
-        document.querySelector("#fishBTN").style.visibility = "hidden"
+        // document.querySelector("#fishInfBuy").style.visibility = "visible"
+        // document.querySelector("#fishBTN").style.visibility = "hidden"
     }
     else if (cFlip == true) {
         cFlip = false
         cFlipAct.innerHTML = "(deactivated)"
-        document.querySelector("#fishInfBuy").style.visibility = "hidden"
-        document.querySelector("#fishBTN").style.visibility = "visible"
+        // document.querySelector("#fishInfBuy").style.visibility = "hidden"
+        // document.querySelector("#fishBTN").style.visibility = "visible"
     }
 })
 
@@ -837,6 +846,10 @@ function pRankUnlock() {
         }
     }
     if (allComplete) {
+        rankUpBTN.value = 50000
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+    }
+}
         rankUpBTN.value = 50000
         rankUpBTN.innerHTML = `${rankUpBTN.value}$`
     }
