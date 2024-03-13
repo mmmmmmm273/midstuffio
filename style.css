@@ -47,7 +47,7 @@
   visibility: hidden;
 }
 
-#shop, #guild, #techs, #feat, #auction, #tutorial {
+#shop, #guild, #techs, #feat, #auction, #tutorial, #settings {
   visibility: hidden;
   position:absolute;
   top:102px;
