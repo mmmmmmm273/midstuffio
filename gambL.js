@@ -6,6 +6,7 @@ function setTab(selected) {
     document.querySelector("#feat").style.visibility = "hidden"
     document.querySelector("#guild").style.visibility = "hidden"
     document.querySelector("#auction").style.visibility = "hidden"
+    document.querySelector("#settings").style.visibility = "hidden"
     document.querySelector("#tutorial").style.visibility = "hidden"
     document.querySelector("#fishBTN").style.visibility = "hidden"
     document.querySelector("#fishInfBuy").style.visibility = "hidden"
@@ -119,15 +120,10 @@ function setTab(selected) {
             }
         }
     }
-    else if (selected == "auction") {
-        document.querySelector("#auction").style.visibility = "visible"
-    }
-    else if (selected == "feat") {
-        document.querySelector("#feat").style.visibility = "visible"
-    }
-    else if (selected == "tutorial") {
-        document.querySelector("#tutorial").style.visibility = "visible"
-    }
+    else if (selected == "auction") document.querySelector("#auction").style.visibility = "visible"
+    else if (selected == "feat") document.querySelector("#feat").style.visibility = "visible"
+    else if (selected == "tutorial") document.querySelector("#tutorial").style.visibility = "visible"
+    else if (selected == "setting") document.querySelector("#settings").style.visibility = "visible"
 }
 document.querySelector("#lakeTab").addEventListener("click", (e) => {
     setTab("lake")
@@ -149,6 +145,9 @@ document.querySelector("#aucTab").addEventListener("click", (e) => {
 })
 document.querySelector("#tutTab").addEventListener("click", (e) => {
     setTab("tutorial")
+})
+document.querySelector("#settiTab").addEventListener("click", (e) => {
+    setTab("setting")
 })
 
 //inv
