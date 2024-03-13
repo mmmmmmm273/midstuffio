@@ -615,11 +615,10 @@ rankUpBTN.addEventListener("click", (e) => {
             rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
             rankUpBTN.value = NaN
             rankUpBTN.innerHTML = "COMPLETE EVERY FEAT FIRST"
-            updateMoney(Infinity)
         }
         else if (rankDo(0, true) == "P") {
             document.querySelector("#guild").style.display = "none"
-            
+            updateMoney(Infinity)
         }
     }
 })
