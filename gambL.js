@@ -439,7 +439,7 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
                     champ = true
                     totalChamps -= 1
                 }
-                
+
                 //add value to total
                 totalValueG += inv[itemP].sellValue
                 updateTotalVal(-inv[itemP].sellValue)
@@ -544,7 +544,7 @@ const champBuyBTN = document.querySelector("#champBuy")
 champBuyBTN.addEventListener("click", (e) => {
     if (money >= champBuyBTN.value && champChance < maxChampChance) {
         updateMoney(-champBuyBTN.value)
-        champChance += 1
+        champChance += 0.5
         updateChances()
     }
 })
@@ -570,57 +570,73 @@ const rankStats = document.querySelector("#rankStats")
 rankUpBTN.addEventListener("click", (e) => {
     let rankUpReq = rankUpBTN.value
     if (money >= rankUpReq && rank < 7) {
-        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
-        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
         rank += 1
         minCGV += 50
         updateMoney(-money)
-        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
-        //rank unlocks
-        if (rankDo(0, true) == "E") {
-            maxRareChance += 20
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Minimum MOBV: ${minCGV};`
-        }
-        else if(rankDo(0, true) == "D" ) {
-            //visible techs
-            document.querySelector("#techTab").style.visibility = "visible"
-            //increase max chances
-            maxEpicChance += 5
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Minimum MOBV: ${minCGV};`
-        }
-        else if(rankDo(0, true) == "C" ) {
-            //remove selling
-            document.querySelector("#seller").style.display = "none"
-            //visible auction
-            document.querySelector("#aucTab").style.visibility = "visible"
-            //increase max chances
-            maxEpicChance += 5
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Minimum MOBV: ${minCGV};`
-        }
-        else if(rankDo(0, true) == "B" ) {
-            //visible feats
-            document.querySelector("#feaTab").style.visibility = "visible"
-            //increase max chances
-            maxLegeChance += 1
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Minimum MOBV: ${minCGV};`
-        }
-        else if(rankDo(0, true) == "A" ) {
-            //increase max chances
-            maxLegeChance += 1
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
-        }
-        else if(rankDo(0, true) == "S" ) {
-            maxChampChance += 1
-            rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
-            rankUpBTN.value = NaN
-            rankUpBTN.innerHTML = "COMPLETE EVERY FEAT FIRST"
-        }
-        else if (rankDo(0, true) == "P") {
-            document.querySelector("#guild").style.display = "none"
-            updateMoney(Infinity)
-        }
+        loadRankUnlocks()
     }
 })
+
+function loadRankUnlocks() {
+    if (rankDo(0, true) == "E") {
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        maxRareChance += 20
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Minimum MOBV: ${minCGV};`
+        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+    }
+    else if(rankDo(0, true) == "D" ) {
+        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        //visible techs
+        document.querySelector("#techTab").style.visibility = "visible"
+        //increase max chances
+        maxEpicChance += 5
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Minimum MOBV: ${minCGV};`
+    }
+    else if(rankDo(0, true) == "C" ) {
+        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        //remove selling
+        document.querySelector("#seller").style.display = "none"
+        //visible auction
+        document.querySelector("#aucTab").style.visibility = "visible"
+        //increase max chances
+        maxEpicChance += 5
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Minimum MOBV: ${minCGV};`
+    }
+    else if(rankDo(0, true) == "B" ) {
+        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        //visible feats
+        document.querySelector("#feaTab").style.visibility = "visible"
+        //increase max chances
+        maxLegeChance += 1
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Minimum MOBV: ${minCGV};`
+    }
+    else if(rankDo(0, true) == "A" ) {
+        rankUpBTN.value = Math.floor(rankUpBTN.value * 1.6)
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        //increase max chances
+        maxLegeChance += 1
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
+    }
+    else if(rankDo(0, true) == "S" ) {
+        rankUpDisplay.innerHTML = `Buy Rank ${rankDo(1, false)}`
+        maxChampChance += 1
+        rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
+        rankUpBTN.value = NaN
+        rankUpBTN.innerHTML = "COMPLETE EVERY FEAT FIRST"
+        // updateMoney(Infinity)
+    }
+    else if (rankDo(0, true) == "P") {
+        document.querySelector("#guild").style.display = "none"
+    }
+}
 
 //tech
 const chargeBuyBTN = document.querySelector("#chargeBuy")
@@ -835,16 +851,104 @@ function getRobCh() {
     pRankUnlock()
 }
 
+
 function pRankUnlock() {
-    let allFeats = [bigMoney, midDepp, techSold, onlyEpic, allLege, cRoyale, soldMyth, fullH, crypZ, robCh]
     let allComplete = true
+    let allFeats = [bigMoney, midDepp, techSold, onlyEpic, allLege, cRoyale, soldMyth, fullH, crypZ, robCh]
     for (var i = 0; i < allFeats.length; i++) {
         if (!allFeats[i]) {
-            allComplete = false
-        }
-    }
+            allComplete = false;
+        };
+    };
     if (allComplete) {
-        rankUpBTN.value = 50000
-        rankUpBTN.innerHTML = `${rankUpBTN.value}$`
+        rankUpBTN.value = 50000;
+        rankUpBTN.innerHTML = `${rankUpBTN.value}$`;
     }
+}
+
+//settings 
+let saveDebounce = false
+document.querySelector("#saveP").addEventListener("click", (e) => {
+    let featSave = [bigMoney, midDepp, techSold, onlyEpic, allLege, cRoyale, soldMyth, fullH, crypZ, robCh]
+    if (!saveDebounce) {
+        localStorage.setItem("moneySave", money);
+        localStorage.setItem("rankSave", rank);
+        localStorage.setItem("chargeSave", charges);
+        localStorage.setItem("rareSave", rareChance);
+        localStorage.setItem("epicSave", epicChance);
+        localStorage.setItem("legeSave", legeChance);
+        localStorage.setItem("champSave", champChance);
+
+        localStorage.setItem("bigMoneySave", bigMoney);
+        localStorage.setItem("midDeppSave", midDepp);
+        localStorage.setItem("techSoldSave", techSold);
+        localStorage.setItem("onlyEpicSave", onlyEpic);
+        localStorage.setItem("allLegeSave", allLege);
+        localStorage.setItem("cRoyaleSave", cRoyale);
+        localStorage.setItem("soldMythSave", soldMyth);
+        localStorage.setItem("fullHSave", fullH);
+        localStorage.setItem("crypZSave", crypZ);
+        localStorage.setItem("robCHSave", robCh);
+
+        document.querySelector("#saveCheck").innerHTML = "Saved!";
+        saveDebounce = true;
+        setTimeout(() => {
+            document.querySelector("#saveCheck").innerHTML = "(Doesn't save inventory)";
+            saveDebounce = false;
+        }, 2500)
+    }
+})
+document.querySelector("#deleteP").addEventListener("click", (e) => {
+    if (confirm("Are you super sure?")) {
+        localStorage.clear()
+        alert("Bye bye!")
+        location.reload()
+    }
+})
+//save load
+const savedData = [
+    localStorage.getItem("moneySave"),
+    localStorage.getItem("rankSave"),
+    localStorage.getItem("chargeSave"),
+    [
+        localStorage.getItem("bigMoneySave"),
+        localStorage.getItem("midDeppSave"),
+        localStorage.getItem("techSoldSave"),
+        localStorage.getItem("onlyEpicSave"),
+        localStorage.getItem("allLegeSave"),
+        localStorage.getItem("cRoyaleSave"),
+        localStorage.getItem("soldMythSave"),
+        localStorage.getItem("fullHSave"),
+        localStorage.getItem("crypZSave"),
+        localStorage.getItem("robCHSave"),
+    ],
+    localStorage.getItem("rareSave"),
+    localStorage.getItem("epicSave"),
+    localStorage.getItem("legeSave"),
+    localStorage.getItem("champSave"),
+];
+//load money
+if (savedData[0]) updateMoney(parseInt(savedData[0]));
+//load rank
+if (savedData[1]) {
+    for (var i = 0; i < savedData[1]; i++) {
+        rank += 1;
+        loadRankUnlocks();
+    };
+};
+//load charges
+if (savedData[2]) updateCharges(parseInt(savedData[2]));
+//load feats
+if (savedData[3]) {
+    let savedFeats = savedData[3]
+    if (savedFeats[0] == "true") getBigMoney();
+    if (savedFeats[1] == "true") getMidDepp();
+    if (savedFeats[2] == "true") getTechSold();
+    if (savedFeats[3] == "true") getOnlyEpic();
+    if (savedFeats[4] == "true") getAllLege();
+    if (savedFeats[5] == "true") getCRoyale();
+    if (savedFeats[6] == "true") getSoldMyth();
+    if (savedFeats[7] == "true") getFullH();
+    if (savedFeats[8] == "true") getCrypZ();
+    if (savedFeats[9] == "true") getRobCh();
 }
