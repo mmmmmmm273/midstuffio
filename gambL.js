@@ -956,5 +956,5 @@ if (savedData[3]) {
 if (savedData[4]) rareChance = parseInt(savedData[4]);
 if (savedData[5]) epicChance = parseInt(savedData[5]);
 if (savedData[6]) legeChance = parseInt(savedData[6]);
-if (savedData[7]) champChance = parseInt(savedData[7]);
+if (savedData[7]) champChance = parseFloat(savedData[7]);
 updateChances();
