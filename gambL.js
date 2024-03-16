@@ -127,27 +127,35 @@ function setTab(selected) {
 }
 document.querySelector("#lakeTab").addEventListener("click", (e) => {
     setTab("lake")
+    document.querySelector("#lakeTab").innerHTML = "Lake"
 })
 document.querySelector("#shopTab").addEventListener("click", (e) => {
     setTab("shop")
+    document.querySelector("#shopTab").innerHTML = "Shop"
 })
 document.querySelector("#guildTab").addEventListener("click", (e) => {
     setTab("guild")
+    document.querySelector("#guildTab").innerHTML = "Guild"
 })
 document.querySelector("#techTab").addEventListener("click", (e) => {
     setTab("tech")
+    document.querySelector("#techTab").innerHTML = "Tech"
 })
 document.querySelector("#feaTab").addEventListener("click", (e) => {
     setTab("feat")
+    document.querySelector("#feaTab").innerHTML = "Feats"
 })
 document.querySelector("#aucTab").addEventListener("click", (e) => {
     setTab("auction")
+    document.querySelector("#aucTabTab").innerHTML = "Auction"
 })
 document.querySelector("#tutTab").addEventListener("click", (e) => {
     setTab("tutorial")
+    document.querySelector("#tutTab").innerHTML = "Tutorial"
 })
 document.querySelector("#settiTab").addEventListener("click", (e) => {
     setTab("setting")
+    document.querySelector("#settiTab").innerHTML = "Settings"
 })
 
 //inv
