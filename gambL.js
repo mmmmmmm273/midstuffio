@@ -137,16 +137,22 @@ document.querySelector("#guildTab").addEventListener("click", (e) => {
     setTab("guild")
     document.querySelector("#guildTab").innerHTML = "Guild"
 })
+let techTabClicked = false;
 document.querySelector("#techTab").addEventListener("click", (e) => {
-    setTab("tech")
-    document.querySelector("#techTab").innerHTML = "Techs"
+    setTab("tech");
+    techTabClicked = true;
+    document.querySelector("#techTab").innerHTML = "Techs";
 })
+let feaTabClicked = false;
 document.querySelector("#feaTab").addEventListener("click", (e) => {
-    setTab("feat")
-    document.querySelector("#feaTab").innerHTML = "Feats"
+    setTab("feat");
+    feaTabClicked = true;
+    document.querySelector("#feaTab").innerHTML = "Feats";
 })
+let aucTabClicked = false;
 document.querySelector("#aucTab").addEventListener("click", (e) => {
     setTab("auction")
+    aucTabClicked = true;
     document.querySelector("#aucTabTab").innerHTML = "Auction"
 })
 document.querySelector("#tutTab").addEventListener("click", (e) => {
@@ -886,6 +892,9 @@ document.querySelector("#saveP").addEventListener("click", (e) => {
         localStorage.setItem("epicSave", epicChance);
         localStorage.setItem("legeSave", legeChance);
         localStorage.setItem("champSave", champChance);
+        localStorage.setItem("techClicked", techTabClicked);
+        localStorage.setItem("featClicked", feaTabClicked);
+        localStorage.setItem("auClicked", aucTabClicked);
 
         localStorage.setItem("bigMoneySave", bigMoney);
         localStorage.setItem("midDeppSave", midDepp);
