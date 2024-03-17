@@ -943,6 +943,9 @@ const savedData = [
     localStorage.getItem("epicSave"),
     localStorage.getItem("legeSave"),
     localStorage.getItem("champSave"),
+    localStorage.getItem("techClicked"),
+    localStorage.getItem("featClicked"),
+    localStorage.getItem("auClicked"),
 ];
 //load money
 if (savedData[0]) updateMoney(parseInt(savedData[0]));
@@ -975,3 +978,7 @@ if (savedData[5]) epicChance = parseInt(savedData[5]);
 if (savedData[6]) legeChance = parseInt(savedData[6]);
 if (savedData[7]) champChance = parseFloat(savedData[7]);
 updateChances();
+//load bold tabs
+if (savedData[8] == "true") document.querySelector("#techTab").innerHTML = "Techs";
+if (savedData[9] == "true") document.querySelector("#feaTab").innerHTML = "Feats";
+if (savedData[10 == "true"]) document.querySelector("#aucTab").innerHTML = "Auction";
