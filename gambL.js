@@ -139,7 +139,7 @@ document.querySelector("#guildTab").addEventListener("click", (e) => {
 })
 document.querySelector("#techTab").addEventListener("click", (e) => {
     setTab("tech")
-    document.querySelector("#techTab").innerHTML = "Tech"
+    document.querySelector("#techTab").innerHTML = "Techs"
 })
 document.querySelector("#feaTab").addEventListener("click", (e) => {
     setTab("feat")
