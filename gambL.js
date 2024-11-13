@@ -153,7 +153,7 @@ let aucTabClicked = false;
 document.querySelector("#aucTab").addEventListener("click", (e) => {
     setTab("auction")
     aucTabClicked = true;
-    document.querySelector("#aucTabTab").innerHTML = "Auction"
+    document.querySelector("#aucTab").innerHTML = "Auction"
 })
 document.querySelector("#tutTab").addEventListener("click", (e) => {
     setTab("tutorial")
