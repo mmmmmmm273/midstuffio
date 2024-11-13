@@ -916,10 +916,12 @@ document.querySelector("#saveP").addEventListener("click", (e) => {
     }
 })
 document.querySelector("#deleteP").addEventListener("click", (e) => {
-    if (confirm("Are you super sure?")) {
-        localStorage.clear()
-        alert("Bye bye!")
-        location.reload()
+    if(confirm("Are you sure?")) {
+        if (confirm("Are you super sure?")) {
+            localStorage.clear()
+            alert("Bye bye!")
+            location.reload()
+        }
     }
 })
 //save load
