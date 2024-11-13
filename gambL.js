@@ -6,6 +6,7 @@ function setTab(selected) {
     document.querySelector("#feat").style.visibility = "hidden"
     document.querySelector("#guild").style.visibility = "hidden"
     document.querySelector("#auction").style.visibility = "hidden"
+    document.querySelector("#stats").style.visibility = "hidden"
     document.querySelector("#settings").style.visibility = "hidden"
     document.querySelector("#tutorial").style.visibility = "hidden"
     document.querySelector("#fishBTN").style.visibility = "hidden"
@@ -122,6 +123,7 @@ function setTab(selected) {
     }
     else if (selected == "auction") document.querySelector("#auction").style.visibility = "visible"
     else if (selected == "feat") document.querySelector("#feat").style.visibility = "visible"
+    else if (selected == "stat") document.querySelector("#stats").style.visibility = "visible"
     else if (selected == "tutorial") document.querySelector("#tutorial").style.visibility = "visible"
     else if (selected == "setting") document.querySelector("#settings").style.visibility = "visible"
 }
@@ -154,6 +156,10 @@ document.querySelector("#aucTab").addEventListener("click", (e) => {
     setTab("auction")
     aucTabClicked = true;
     document.querySelector("#aucTab").innerHTML = "Auction"
+})
+document.querySelector("#staTab").addEventListener("click", (e) => {
+    setTab("stat")
+    document.querySelector("#settiTab").innerHTML = "Settings"
 })
 document.querySelector("#tutTab").addEventListener("click", (e) => {
     setTab("tutorial")
