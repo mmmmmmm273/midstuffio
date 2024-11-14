@@ -185,6 +185,11 @@ function updateMoney(given) {
     if (money >= rankUpBTN.value) moneyDisplay.innerHTML += " [YOU CAN RANK UP, check the 'guild' tab for more info]"
     //feat get
     if (money >= 30000) getBigMoney()
+    //update stats
+    if (given > 0) {
+        stat.moneyEarn += given;
+        updateStat("moneyEarn", stat.moneyEarn);
+    }
 }
 
 
@@ -443,23 +448,17 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
             let itemP = box.value - 1
             if (inv[itemP].isExisting) {
                 //FEATS CHECKING!!
-                if (inv[itemP].rarity == "epic") {
-                    epicCount += 1
-                }
-                else {
-                    epicCount = 80085
-                }
-                if (inv[itemP].rarity == "legendary") {
-                    legeCount += 1
-                }
-                if (inv[itemP].fish == "raged ebarb") {
-                    eBarbs = true
-                }
-                if (inv[itemP].rarity == "mythical") {
-                    champ = true
-                    totalChamps -= 1
-                }
+                if (inv[itemP].rarity == "epic") epicCount += 1;
+                else epicCount = 80085
 
+                if (inv[itemP].rarity == "legendary") legeCount += 1
+
+                if (inv[itemP].fish == "raged ebarb") eBarbs = true;
+
+                if (inv[itemP].rarity == "mythical") {
+                    champ = true;
+                    totalChamps -= 1;
+                }
                 //add value to total
                 totalValueG += inv[itemP].sellValue
                 updateTotalVal(-inv[itemP].sellValue)
@@ -540,8 +539,8 @@ const epicFishBuyBTN = document.querySelector("#epicFishBuy")
 const eFBV = document.querySelector("#epicFishBuy").value
 epicFishBuyBTN.addEventListener("click", (e) => {
     if (money >= eFBV && inv.length < maxInv) {
-        updateMoney(-eFBV)
-        getFish(0, 100, 0, 0, 0)
+        updateMoney(-eFBV);
+        getFish(0, 100, 0, 0, 0);
     }
 })
 const legeBuyBTN = document.querySelector("#legeBuy")
@@ -654,7 +653,7 @@ function loadRankUnlocks() {
         // updateMoney(Infinity)
     }
     else if (rankDo(0, true) == "P") {
-        document.querySelector("#guild").style.display = "none"
+        document.querySelector("#guild").style.display = "none";
     }
 }
 
@@ -662,8 +661,8 @@ function loadRankUnlocks() {
 const chargeBuyBTN = document.querySelector("#chargeBuy")
 chargeBuyBTN.addEventListener("click", (e) => {
     if (money >= chargeBuyBTN.value) {
-        updateMoney(-chargeBuyBTN.value)
-        updateCharges(1)
+        updateMoney(-chargeBuyBTN.value);
+        updateCharges(1);
     }
 })
 //double cash vv
@@ -721,16 +720,12 @@ const cFlipAct = document.querySelector("#cFlipAct")
 cFlipBTN.addEventListener("click", (e) => {
     if (charges >= cFlipBTN.value && cFlip == false) {
         updateCharges(-cFlipBTN.value)
-        cFlip = true
-        cFlipAct.innerHTML = "(activated)"
-        // document.querySelector("#fishInfBuy").style.visibility = "visible"
-        // document.querySelector("#fishBTN").style.visibility = "hidden"
+        cFlip = true;
+        cFlipAct.innerHTML = "(activated)";
     }
     else if (cFlip == true) {
-        cFlip = false
-        cFlipAct.innerHTML = "(deactivated)"
-        // document.querySelector("#fishInfBuy").style.visibility = "hidden"
-        // document.querySelector("#fishBTN").style.visibility = "visible"
+        cFlip = false;
+        cFlipAct.innerHTML = "(deactivated)";
     }
 })
 
@@ -886,10 +881,22 @@ function pRankUnlock() {
     }
 }
 
+//stats
+var stat = {};
+stat.moneyEarn = 0
+function updateStat(statID, amount) {
+    var statLabels = document.getElementsByClassName("clasStat");
+    for (var i = 0; i < statLabels.length; i++) {
+        if (statLabels[i].id == statID) {
+            statLabels[i].innerHTML = amount;
+            break;
+        }
+    }
+}
+
 //settings 
 let saveDebounce = false
 document.querySelector("#saveP").addEventListener("click", (e) => {
-    let featSave = [bigMoney, midDepp, techSold, onlyEpic, allLege, cRoyale, soldMyth, fullH, crypZ, robCh]
     if (!saveDebounce) {
         localStorage.setItem("moneySave", money);
         localStorage.setItem("rankSave", rank);
