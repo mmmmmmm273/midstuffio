@@ -774,16 +774,18 @@ const getAucBTN = document.querySelector("#buyAuct")
 getAucBTN.addEventListener("click", (e) => {
     if (getFish(0, 0, 0, 0, getAucBTN.value, currentAuction)) {
         //start of some feat stuff
-        console.log(currentAuction.rarity)
-        console.log(getAucBTN.value)
         if (currentAuction.rarity == "epic" && getAucBTN.value >= 500) {
             getCrypZ()
         }
         else if (currentAuction.rarity == "mythical" && getAucBTN.value <= 10) {
             getRobCh()
         }
-        //auction rep
-        stat.aucRep += Math.ceil(Math.sqrt(getAucBTN.value));
+        //increase aucrep
+        let rareMod = 0.0;
+        if (currentAuction.rarity == "epic") rareMod = 1.0
+        else if (currentAuction.rarity == "legendary") rareMod = 1.1
+        else if (currentAuction.rarity == "mythical") rareMod = 1.3
+        stat.aucRep += Math.ceil(Math.sqrt(getAucBTN.value)*rareMod);
         if (stat.aucRep > 100) stat.aucRep = 100
         updateStat("aucRep", stat.aucRep);
         //
