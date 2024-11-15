@@ -190,6 +190,10 @@ function updateMoney(given) {
         stat.moneyEarn += given;
         updateStat("moneyEarn", stat.moneyEarn);
     }
+    else if (given < 0) {
+        stat.moneySpend -= given;
+        updateStat("moneySpend", stat.moneySpend);
+    }
 }
 
 
@@ -199,6 +203,15 @@ const chargeDisplay = document.querySelector("#chargeDisplay")
 function updateCharges(given) {
     charges += given
     chargeDisplay.innerHTML = `Charges: ${charges}`
+    //stattster
+    if (given > 0) {
+        stat.chargeEarn += given;
+        updateStat("chargeEarn", stat.chargeEarn);
+    }
+    else {
+        stat.chargeSpend -= given;
+        updateStat("chargeSpend", stat.chargeSpend);
+    }
 }
 
 //rank
@@ -265,9 +278,7 @@ function updateMaxValue() {
             maxOppValue = currentMax
             maxValueDisplay.innerHTML = `MOBV: ${currentMax} <span class="tooltiptext">MAXIMUM OPPOSITION BET VALUE</span>`
         }
-        else {
-            updateMaxValue()
-        }
+        else updateMaxValue()
     }
     else {
         maxOppValue = minCGV
@@ -283,19 +294,13 @@ function updateTotalVal(amount) {
     compValDisplay.innerHTML = `Total Value: ${completeVal}`
 }
 var totalChamps = 0 //feat stuf...
-function getFish(r, e, l, c, amount, preset) {
+function getFish(r, e, l, c, amount, preset, method) {
     if (inv.length < maxInv && money >= amount) {
         
         updateMoney(-amount)
-        if (preset) {
-            drop = preset
-        }
-        else if (!cFlip) {
-            drop = lootFind(r, e, l, c)
-        }
-        else {
-            drop = lootFind(0, 0, 40, 10)
-        }
+        if (preset) drop = preset
+        else if (!cFlip) drop = lootFind(r, e, l, c)
+        else drop = lootFind(0, 0, 40, 10)
         document.querySelector("#fishCa").innerHTML = "you got a " + drop.fish + ` (${drop.rarity} rarity)`
         inv.push(drop)
         updateTotalVal(drop.sellValue)
@@ -327,7 +332,24 @@ function getFish(r, e, l, c, amount, preset) {
         if (totalChamps == 10) {
             getFullH()
         }
-        //end of feat stuff....
+        //stastuff....
+        if (drop.rarity == "legendary" && method == "fish") {
+            stat.legFishCatches++;
+            updateStat("legFishCatches", stat.legFishCatches);
+        }
+        else if (drop.rarity == "legendary") {
+            stat.legFishGets++;
+            updateStat("legFishGets", stat.legFishGets);
+        }
+        else if (drop.rarity == "mythical" && method == "fish") {
+            stat.champFishCatches++;
+            updateStat("champFishCatches", stat.champFishCatches);
+        }
+        else if (drop.rarity == "mythical") {
+            stat.champFishGets++;
+            updateStat("champFishGets", stat.champFishGets);
+        }
+
         return true
     }
     else {
@@ -336,7 +358,7 @@ function getFish(r, e, l, c, amount, preset) {
     }
 }
 document.querySelector("#fishBTN").addEventListener("click", (e) => {
-    getFish(rareChance, epicChance, legeChance, champChance, 0)
+    getFish(rareChance, epicChance, legeChance, champChance, 0, false, "fish")
 })
 document.querySelector("#fishInfBuy").addEventListener("click", (e) => {
     getFish(rareChance, epicChance, legeChance, champChance, 400)
@@ -492,7 +514,9 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
             if (eBarbs == true) {
                 getCRoyale()
             }
-            //
+            //stat update
+            stat.gambsWon++;
+            updateStat("gambsWon", stat.gambsWon);
         }
         else if (totalValueG < opposition) {
             resultDisplay.innerHTML = `Your value: ${totalValueG}; Opposition value: ${opposition}; YOU LOST YOUR FISH HAHAHA`
@@ -503,7 +527,9 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
             if (champ == true) {
                 getSoldMyth()
             }
-            //
+            //stat update
+            stat.gambsLost++;
+            updateStat("gambsLost", stat.gambsLost);
         }
         else {
             resultDisplay.innerHTML = `Your value: ${totalValueG}; Opposition value: ${opposition}; a tie???? well i GUESS you get a refund`
@@ -756,7 +782,11 @@ getAucBTN.addEventListener("click", (e) => {
         else if (currentAuction.rarity == "mythical" && getAucBTN.value <= 10) {
             getRobCh()
         }
-        //end of some feat stuff
+        //auction rep
+        stat.aucRep += Math.ceil(Math.sqrt(getAucBTN.value));
+        if (stat.aucRep > 100) stat.aucRep = 100
+        updateStat("aucRep", stat.aucRep);
+        //
         updateAuct(0, 100, 30, 20)
     }
 })
@@ -765,12 +795,21 @@ rerollAucBTN.addEventListener("click", (e) => {
     if (money >= rerollAucBTN.value) {
         updateMoney(-rerollAucBTN.value)
         updateAuct(0, 100, 30, 20)
+        //decrease aucrep
+        stat.aucRep -= Math.ceil(rerollAucBTN.value/7.5);
+        if (stat.aucRep < -100) stat.aucRep = -100;
+        updateStat("aucRep", stat.aucRep);
     }
 })
 const skewAucBTN = document.querySelector("#skewAuc")
 skewAucBTN.addEventListener("click", (e) => {
     if (money >= skewAucBTN.value) {
         updateMoney(-skewAucBTN.value)
+        //decrease aucrep
+        stat.aucRep -= Math.ceil(skewAucBTN.value/5);
+        if (stat.aucRep < -100) stat.aucRep = -100;
+        updateStat("aucRep", stat.aucRep);
+        //
         updateAuct(0, 0, 0, 100)
     }
 })
@@ -786,13 +825,25 @@ bribeBTN.addEventListener("click", (e) => {
             document.querySelector("#cAuct").innerHTML = `Current Auction: ${currentAuction.fish}; Proposed Value: ${getAucBTN.value}`
             document.querySelector("#buyAuct").innerHTML = `${getAucBTN.value}$`
             briResult.innerHTML = `The auctioneer takes the money... the value was lowered to ${getAucBTN.value}`
+            //decrease aucrep
+            stat.aucRep -= Math.floor(briValue/100);
+            if (stat.aucRep < -100) stat.aucRep = -100;
+            updateStat("aucRep", stat.aucRep);
         }
         else if (briValue * 2 <= money && getRandomInt(3) == 1) {
             updateMoney(-Math.floor(money/4))
             briResult.innerHTML = `The auctioneer takes the money... THE COPS PULL UP AND TAKE A LARGE PORTION OF YOUR CASH`
+            //decrease aucrep
+            stat.aucRep -= 70;
+            if (stat.aucRep < -100) stat.aucRep = -100;
+            updateStat("aucRep", stat.aucRep);
         }
         else {
             briResult.innerHTML = `The auctioneer takes the money... he/she/they dipped`
+            //decrease aucrep
+            stat.aucRep -= Math.floor(briValue/25);
+            if (stat.aucRep < -100) stat.aucRep = -100;
+            updateStat("aucRep", stat.aucRep);
         }
     }
     else {
@@ -883,7 +934,17 @@ function pRankUnlock() {
 
 //stats
 var stat = {};
-stat.moneyEarn = 0
+stat.aucRep = 0;
+stat.moneyEarn = 0;
+stat.moneySpend = 0;
+stat.gambsWon = 0;
+stat.gambsLost = 0;
+stat.legFishGets = 0;
+stat.legFishCatches = 0;
+stat.champFishGets = 0;
+stat.champFishCatches = 0;
+stat.chargeEarn = 0;
+stat.chargeSpend = 0;
 function updateStat(statID, amount) {
     var statLabels = document.getElementsByClassName("clasStat");
     for (var i = 0; i < statLabels.length; i++) {
