@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>gambL</title>
     <link rel="stylesheet" href="style.css" >
 </head>
 <body>
@@ -21,6 +21,7 @@
     <button class="tab" id="techTab"><strong>Techs</strong></button>
     <button class="tab" id="aucTab"><strong>Auction</strong></button>
     <button class="tab" id="feaTab"><strong>Feats</strong></button>
+    <button id="staTab">Stats</button>
     <button id="tutTab">Tutorial</button>
     <button id="settiTab">Settings</button><br><br>
 
@@ -114,7 +115,7 @@
         <label>Buy Auctioned Fish</label>
         <button id="buyAuct">a zillion dollars</button><br>
         <label>Reroll Auction</label>
-        <button id="rerollA" value="0">50$</button><br>
+        <button id="rerollA" value="50">50$</button><br>
         <label>Skewer Auction</label>
         <button id="skewAuc" value="150">150$</button><br>
         <label>Bribe Auctioneer</label>
@@ -148,7 +149,22 @@
         <br>
     </div>
 
-        <div id="tutorial">
+    <div id="stats">
+        <h3>staistics:</h3>
+        <div><strong>Auction Reputation:</strong> <label class="clasStat" id="aucRep">0</label></div>
+        <div><strong>Money Earned:</strong> <label class="clasStat" id="moneyEarn">0</label></div>
+        <div><strong>Money Spent:</strong> <label class="clasStat" id="moneySpend">0</label></div>
+        <div><strong>Gambles Won:</strong> <label class="clasStat" id="gambsWon">0</label></div>
+        <div><strong>Gambles Lost:</strong> <label class="clasStat" id="gambsLost">0</label></div>
+        <div><strong>Legendary Fish Gets:</strong> <label class="clasStat" id="legFishGets">0</label></div>
+        <div><strong>Legendary Fish Catches:</strong> <label class="clasStat" id="legFishCatches">0</label></div>
+        <div><strong>Mythical Fish Gets:</strong> <label class="clasStat" id="champFishGets">0</label></div>
+        <div><strong>Mythical Fish Catches:</strong> <label class="clasStat" id="champFishCatches">0</label></div>
+        <div><strong>Charges Earned:</strong> <label class="clasStat" id="chargeEarn">0</label></div>
+        <div><strong>Charges Spent:</strong> <label class="clasStat" id="chargeSpend">0</label></div>
+    </div>
+
+    <div id="tutorial">
         <h3>tutorial:</h3>
         <p><strong>REMEMBER TO SAVE IN SETTINGS TAB!!!!</strong></p>
         <p><em>Maximum Opposition Bet Value (MOBV) is the most an opposition can bet<br> against you during a gamble.</em></p>
@@ -178,7 +194,7 @@
     <div id="settings">
         <h3>settings:</h3>
         <button id="saveP">Save Progress</button>
-        <label id="saveCheck">(Doesn't save inventory)</label><br><br>
+        <label id="saveCheck">(Doesn't save inventory and non-rep stats)</label><br><br>
         <button id="deleteP">Delete Progress</button>
     </div>
 
