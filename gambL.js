@@ -305,7 +305,7 @@ function getFish(r, e, l, c, amount, preset, method) {
         inv.push(drop)
         updateTotalVal(drop.sellValue)
         updateMaxValue()
-        document.querySelector("#result").innerHTML = ""
+        document.querySelector("#result").innerHTML = "..."
 
         let myDiv = document.getElementById("myDiv");
 
@@ -349,7 +349,6 @@ function getFish(r, e, l, c, amount, preset, method) {
             stat.champFishGets++;
             updateStat("champFishGets", stat.champFishGets);
         }
-
         return true
     }
     else {
@@ -357,9 +356,87 @@ function getFish(r, e, l, c, amount, preset, method) {
         return false
     }
 }
-document.querySelector("#fishBTN").addEventListener("click", (e) => {
-    getFish(rareChance, epicChance, legeChance, champChance, 0, false, "fish")
+var eventDur = 0;
+var eventBool = false;
+var eventID = "";
+var eventCost = 0;
+const fishBTN = document.querySelector("#fishBTN");
+fishBTN.addEventListener("click", (e) => {
+    if (getFish(rareChance, epicChance, legeChance, champChance, eventCost, false, "fish")) {
+        //rep events
+        if (!eventBool) {
+            if (stat.aucRep > 50 && getRandomInt(20) == 1) { //rng paycheck
+                let paycheck = stat.aucRep*25+getRandomInt(100);
+                updateMoney(paycheck);
+                resultDisplay.innerHTML = `jimmster beast just gave you a ${paycheck}$ check!`;
+            }
+            else if (stat.aucRep > 40 && getRandomInt(18) == 1) { //rng robbery
+                let robbery = stat.aucRep * 30 + getRandomInt(100);
+                if (money-robbery < 0) resultDisplay.innerHTML = `someone tried to rob you for ${robbery}$, but you were too broke`;
+                else {
+                    updateMoney(-robbery);
+                    resultDisplay.innerHTML = `someone stole ${robbery}$ from you!!`;
+                }
+            }
+            else if (stat.aucRep < -20 && getRandomInt(24) == 1) doFishRepEvent(true, false, 2, "chargeCoupon");
+            else if (stat.aucRep > 20 && getRandomInt(24) == 1) doFishRepEvent(true, false, 4, "chargeInflate");
+            else if (stat.aucRep > 80 && getRandomInt(30) == 1 && !fishInf && !cFlip) doFishRepEvent(true, false, getRandomInt(2)+2, "fishCost");
+        }
+        else doFishRepEvent(false);
+    }
+    else if (money < eventCost) doFishRepEvent(false);
 })
+function doFishRepEvent(edit, endCE, dur, eID) {
+    if (edit) {
+        eventDur = dur;
+        if (endCE) eventBool = false;
+        else eventBool = true;
+        eventID = eID;
+
+        if (eID == "chargeCoupon") {
+            if (!endCE) {
+                chargeBuyBTN.value = `${chargeBuyBTN.value/2}`;
+                chargeBuyBTN.innerHTML = `${chargeBuyBTN.value}$`;
+                resultDisplay.innerHTML = `CHARGES ARE HALF OFF FOR ${dur} FISHINGS JUST FOR YOU!! BUY BUY BUY!!!`;
+            }
+            else if (endCE) {
+                chargeBuyBTN.value = `${chargeBuyBTN.value*2}`;
+                chargeBuyBTN.innerHTML = `${chargeBuyBTN.value}$`;
+                resultDisplay.innerHTML = `CHARGE SALE IS OVER.....`;
+            }
+        }
+        else if (eID == "chargeInflate") {
+            if (!endCE) {
+                chargeBuyBTN.value = `${chargeBuyBTN.value*2}`;
+                chargeBuyBTN.innerHTML = `${chargeBuyBTN.value}$`;
+                resultDisplay.innerHTML = `papple released a new LPhone, doubling the price of charges for ${dur} fishings!`;
+            }
+            else if (endCE) {
+                chargeBuyBTN.value = `${chargeBuyBTN.value/2}`;
+                chargeBuyBTN.innerHTML = `${chargeBuyBTN.value}$`;
+                resultDisplay.innerHTML = `charge costs are normal again!`;
+            }
+        }
+        else if (eID == "fishCost") {
+            if (!endCE) {
+                eventCost = Math.ceil(stat.aucRep*1.5+getRandomInt(200))
+                fishBTN.innerHTML = `Fish (${eventCost}$)`
+                resultDisplay.innerHTML = `fishes are now TAXED for ${dur} fishings!`;
+            }
+            else if (endCE) {
+                eventCost = 0
+                fishBTN.innerHTML = `Fish`
+                resultDisplay.innerHTML = `no more!`;
+            }
+        }
+
+    }
+    else {
+        eventDur--;
+        console.log(eventDur);
+        if (eventDur <= 0) doFishRepEvent(true, true, 0, eventID);
+    }
+}
 document.querySelector("#fishInfBuy").addEventListener("click", (e) => {
     getFish(rareChance, epicChance, legeChance, champChance, 400)
 })
@@ -452,6 +529,7 @@ document.querySelector("#seller").addEventListener("click", (e) => {
 })
 
 //gamble
+const resultDisplay = document.querySelector("#result");
 document.querySelector("#gambler").addEventListener("click", (e) => {
     var boxes = document.getElementsByName('selling');
     var texts = document.getElementsByClassName('sold');
@@ -499,7 +577,6 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
         getAllLege()
     }
     //
-    var resultDisplay = document.querySelector("#result")
     if (totalValueG > 0) {
         //the gamble
         let opposition = getRandomInt(maxOppValue)
@@ -983,6 +1060,8 @@ document.querySelector("#saveP").addEventListener("click", (e) => {
         localStorage.setItem("crypZSave", crypZ);
         localStorage.setItem("robCHSave", robCh);
 
+        localStorage.setItem("aucRep", stat.aucRep)
+
         document.querySelector("#saveCheck").innerHTML = "Saved!";
         saveDebounce = true;
         setTimeout(() => {
@@ -1024,6 +1103,7 @@ const savedData = [
     localStorage.getItem("techClicked"),
     localStorage.getItem("featClicked"),
     localStorage.getItem("auClicked"),
+    localStorage.getItem("aucRep")
 ];
 //load money
 if (savedData[0]) updateMoney(parseInt(savedData[0]));
@@ -1038,7 +1118,7 @@ if (savedData[1]) {
 if (savedData[2]) updateCharges(parseInt(savedData[2]));
 //load feats
 if (savedData[3]) {
-    let savedFeats = savedData[3]
+    const savedFeats = savedData[3]
     if (savedFeats[0] == "true") getBigMoney();
     if (savedFeats[1] == "true") getMidDepp();
     if (savedFeats[2] == "true") getTechSold();
@@ -1059,4 +1139,9 @@ updateChances();
 //load bold tabs
 if (savedData[8] == "true") document.querySelector("#techTab").innerHTML = "Techs";
 if (savedData[9] == "true") document.querySelector("#feaTab").innerHTML = "Feats";
-if (savedData[10 == "true"]) document.querySelector("#aucTab").innerHTML = "Auction";
+if (savedData[10] == "true") document.querySelector("#aucTab").innerHTML = "Auction";
+//load aucRep
+if (savedData[11]) {
+    stat.aucRep = parseInt(savedData[11]);
+    updateStat("aucRep", stat.aucRep);
+}
