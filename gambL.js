@@ -186,13 +186,15 @@ function updateMoney(given) {
     //feat get
     if (money >= 30000) getBigMoney()
     //update stats
-    if (given > 0) {
-        stat.moneyEarn += given;
-        updateStat("moneyEarn", stat.moneyEarn);
-    }
-    else if (given < 0) {
-        stat.moneySpend -= given;
-        updateStat("moneySpend", stat.moneySpend);
+    if (money <= rankUpBTN.value) {
+        if (given > 0) {
+            stat.moneyEarn += given;
+            updateStat("moneyEarn", stat.moneyEarn);
+        }
+        else if (given < 0) {
+            stat.moneySpend -= given;
+            updateStat("moneySpend", stat.moneySpend);
+        }
     }
 }
 
@@ -583,7 +585,7 @@ document.querySelector("#gambler").addEventListener("click", (e) => {
         if (totalValueG > opposition) {
             let theGain = totalValueG * 2 + Math.floor(opposition/2)
             resultDisplay.innerHTML = `Your value: ${totalValueG}; Opposition value: ${opposition}; YOU WIN ${theGain} CASH`
-            updateMoney(theGain)
+            updateMoney(theGain*doubleCashReturn())
             //feat get
             if (epicCount == 1) {
                 getOnlyEpic()
@@ -753,7 +755,7 @@ function loadRankUnlocks() {
         rankStats.innerHTML = `Max Rare Chance: ${maxRareChance}; Max Epic Chance: ${maxEpicChance}; Max Legendary Chance: ${maxLegeChance}; Max Mythical Chance: ${maxChampChance};<br> Minimum MOBV: ${minCGV};`
         rankUpBTN.value = NaN
         rankUpBTN.innerHTML = "COMPLETE EVERY FEAT FIRST"
-        // updateMoney(Infinity)
+        pRankUnlock();
     }
     else if (rankDo(0, true) == "P") {
         document.querySelector("#guild").style.display = "none";
@@ -786,12 +788,8 @@ doubleCashBTN.addEventListener("click", (e) => {
     }
 })
 function doubleCashReturn() {
-    if (doubleCash == true) {
-        return 2
-    }
-    else {
-        return 1
-    }
+    if (doubleCash) return 2;
+    else return 1;
 }
 //inflation vv
 var fishInf= false
@@ -806,7 +804,7 @@ fishInfBTN.addEventListener("click", (e) => {
         fishInf = true
         fishInfActivate.innerHTML = "(activated)"
     }
-    else if (fishInf == true) {
+    else if (fishInf) {
         fishInf = false
         fishInfActivate.innerHTML = "(deactivated)"
         //real feat check
@@ -875,7 +873,7 @@ rerollAucBTN.addEventListener("click", (e) => {
         updateMoney(-rerollAucBTN.value)
         updateAuct(0, 100, 30, 20)
         //decrease aucrep
-        stat.aucRep -= Math.ceil(rerollAucBTN.value/7.5);
+        stat.aucRep -= Math.ceil(rerollAucBTN.value/15);
         if (stat.aucRep < -100) stat.aucRep = -100;
         updateStat("aucRep", stat.aucRep);
     }
@@ -885,7 +883,7 @@ skewAucBTN.addEventListener("click", (e) => {
     if (money >= skewAucBTN.value) {
         updateMoney(-skewAucBTN.value)
         //decrease aucrep
-        stat.aucRep -= Math.ceil(skewAucBTN.value/5);
+        stat.aucRep -= Math.ceil(skewAucBTN.value/10);
         if (stat.aucRep < -100) stat.aucRep = -100;
         updateStat("aucRep", stat.aucRep);
         //
@@ -1005,7 +1003,7 @@ function pRankUnlock() {
             allComplete = false;
         };
     };
-    if (allComplete) {
+    if (allComplete && rankDo(0, false) == "S") {
         rankUpBTN.value = 50000;
         rankUpBTN.innerHTML = `${rankUpBTN.value}$`;
     }
@@ -1025,11 +1023,13 @@ stat.champFishCatches = 0;
 stat.chargeEarn = 0;
 stat.chargeSpend = 0;
 function updateStat(statID, amount) {
-    var statLabels = document.getElementsByClassName("clasStat");
-    for (var i = 0; i < statLabels.length; i++) {
-        if (statLabels[i].id == statID) {
-            statLabels[i].innerHTML = amount;
-            break;
+    if (!rankDo(0, false) == "S" && !rankDo(0, false) == "P" || statID == "aucRep") {
+        var statLabels = document.getElementsByClassName("clasStat");
+        for (var i = 0; i < statLabels.length; i++) {
+            if (statLabels[i].id == statID) {
+                statLabels[i].innerHTML = amount;
+                break;
+            }
         }
     }
 }
@@ -1062,10 +1062,12 @@ document.querySelector("#saveP").addEventListener("click", (e) => {
 
         localStorage.setItem("aucRep", stat.aucRep)
 
-        document.querySelector("#saveCheck").innerHTML = "Saved!";
+        const saveCheck = document.querySelector("#saveCheck");
+        const preSaveMessage = saveCheck.innerHTML
+        saveCheck.innerHTML = "Saved!";
         saveDebounce = true;
         setTimeout(() => {
-            document.querySelector("#saveCheck").innerHTML = "(Doesn't save inventory)";
+            document.querySelector("#saveCheck").innerHTML = preSaveMessage;
             saveDebounce = false;
         }, 2500)
     }
